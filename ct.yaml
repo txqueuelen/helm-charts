@@ -1,0 +1,24 @@
+# remote: origin
+target-branch: main
+# since: HEAD
+# build-id: 
+# lint-conf: 
+# chart-yaml-schema: 
+# validate-maintainers: false
+# validate-chart-schema: false
+# validate-yaml: false
+# additional-commands: []
+# check-version-increment: false
+# process-all-charts: false
+# charts: []
+# chart-repos: []
+# chart-dirs: [charts]
+# excluded-charts: []
+# helm-extra-args: 
+# helm-repo-extra-args: []
+# debug: false
+# upgrade: false
+# skip-missing-values: false
+# namespace: 
+# release-label: 
+# exclude-deprecated: false
