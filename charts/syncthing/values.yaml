@@ -1,0 +1,26 @@
+#nameOverride: ""
+#fullnameOverride: ""
+
+service:
+  annotations: {}
+  # Port where the syncthing service will be exposed
+  port: 22001
+
+ingress:
+  annotations: {}
+  hosts: []
+#  hosts:
+#    - host: sync.kangmak.es
+  autoTls: true  # Generate tls section automatically for all hosts above
+
+pvc: {}
+#pvc:
+#  spec:
+#    storageClassName: example-class
+#    resources:
+#      requests:
+#        storage: 16Gi
+
+podAnnotations: {}
+
+resources: {}

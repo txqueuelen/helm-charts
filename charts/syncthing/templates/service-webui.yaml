@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "syncthing.fullname" . }}-webui
+  labels:
+    {{- include "syncthing.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: webui
+      port: 80
+      targetPort: syncthing-http
+  selector:
+    {{- include "syncthing.selectorLabels" . | nindent 4 }}

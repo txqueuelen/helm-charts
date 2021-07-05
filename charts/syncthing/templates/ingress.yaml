@@ -1,0 +1,37 @@
+{{- $fullName := include "syncthing.fullname" . -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "syncthing.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-webui
+                port:
+                  name: webui
+    {{- end }}
+  {{- if .Values.ingress.autoTls }}
+  tls:
+    - hosts:
+      {{- range .Values.ingress.hosts }}
+      - {{ .host | quote }}
+      {{- end }}
+      secretName: {{ $fullName }}-cert
+  {{- else }}
+  {{- with .Values.ingress.tls }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- end }}
