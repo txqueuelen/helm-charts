@@ -1,0 +1,11 @@
+apiVersion: v2
+name: syncthing
+description: Syncthing chart for tenshi
+icon: https://raw.githubusercontent.com/syncthing/syncthing-android/main/graphics/ic_launcher_full.svg
+
+type: application
+
+version: "0.1.0"
+
+# syncthing/syncthing:1
+appVersion: "1"

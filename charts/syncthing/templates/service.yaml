@@ -1,0 +1,15 @@
+{{- $fullName := include "syncthing.fullname" . -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "syncthing.fullname" . }}
+  annotations:
+  {{- toYaml .Values.service.annotations | nindent 4 }}
+spec:
+  type: LoadBalancer
+  ports:
+    - name: syncthing
+      port: {{ .Values.service.port }}
+      targetPort: syncthing
+  selector:
+    {{- include "syncthing.selectorLabels" . | nindent 4 }}

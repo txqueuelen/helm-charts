@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "syncthing.fullname" . }}
+  labels:
+    {{- include "syncthing.labels" . | nindent 4 }}
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "syncthing.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "syncthing.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "syncthing/syncthing:{{ .Chart.AppVersion }}"
+          imagePullPolicy: Always
+          ports:
+            - name: syncthing
+              containerPort: 22000
+            - name: syncthing-http
+              containerPort: 8384
+          volumeMounts:
+            - mountPath: /var/syncthing
+              name: syncthing-data
+          livenessProbe:
+            tcpSocket: # Use tcpSocket as http may return 401 if auth is enabled (which should)
+              port: 22000
+            periodSeconds: 60
+            initialDelaySeconds: 60
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: syncthing-data
+          persistentVolumeClaim:
+            claimName: {{ include "syncthing.fullname" . }}-data
